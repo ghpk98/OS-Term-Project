@@ -4,8 +4,8 @@
 //Swap operation to order by first come
 int swap(int pid[], int arrival_time[], int burst_time[], int num) {
 	for (int i = 0; i < num; i++) {
-		for (int j = 0; j < num; j++) {
-			if (arrival_time[i] < arrival_time[j]) {
+		for (int j = i; j < num; j++) {
+			if (arrival_time[i] > arrival_time[j]) {
 				int temp = arrival_time[j];
 				arrival_time[j] = arrival_time[i];
 				arrival_time[i] = temp;

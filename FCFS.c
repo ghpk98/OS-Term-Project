@@ -37,8 +37,8 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
 	    			pid[i] = temp;
 		    		temp = burst_time[j];
 			    	burst_time[j] = burst_time[i];
-				    burst_time[i] = temp;
-				    temp = priority[j];
+				burst_time[i] = temp;
+				temp = priority[j];
     				priority[j] = priority[i];
     				priority[i] = temp;
 			    }
@@ -56,7 +56,7 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
 	    			pid[k] = pid[j];
 		    		pid[j] = temp;
 			    	temp = burst_time[k];
-				    burst_time[k] = burst_time[j];
+				burst_time[k] = burst_time[j];
     				burst_time[j] = temp;
     				temp = priority[k];
 		    		priority[k] = priority[j];
@@ -80,10 +80,10 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
 	    			pid[i] = temp;
 		    		temp = burst_time[j];
 			    	burst_time[j] = burst_time[i];
-				    burst_time[i] = temp;
-				    temp = priority[j];
+				burst_time[i] = temp;
+				temp = priority[j];
 			    	priority[j] = priority[i];
-				    priority[i] = temp;
+				priority[i] = temp;
 			    }
 			}
 		}
@@ -99,10 +99,10 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
 	    			pid[k] = pid[j];
 		    		pid[j] = temp;
 			    	temp = burst_time[k];
-				    burst_time[k] = burst_time[j];
+				burst_time[k] = burst_time[j];
     				burst_time[j] = temp;
     				temp = priority[k];
-				    priority[k] = priority[j];
+				priority[k] = priority[j];
     				priority[j] = temp;
 	    		}
 		    }
@@ -148,7 +148,7 @@ int FCFS(int pid[], int arrival_time[], int burst_time[], int priority[], int nu
 
 int SJF(int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
 	swap(pid, arrival_time, burst_time, priority, num);
-    swapSJF(pid, arrival_time, burst_time, priority, num);
+    	swapSJF(pid, arrival_time, burst_time, priority, num);
 	printf("\n\nSJF:\n");
 	int waiting_time[num], turnaround_time[num];
 	int tot_wait = 0, tot_turnaround = 0;

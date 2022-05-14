@@ -37,8 +37,8 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
 	    			pid[i] = temp;
 		    		temp = burst_time[j];
 			    	burst_time[j] = burst_time[i];
-				burst_time[i] = temp;
-				temp = priority[j];
+				    burst_time[i] = temp;
+				    temp = priority[j];
     				priority[j] = priority[i];
     				priority[i] = temp;
 			    }
@@ -48,7 +48,13 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
 	for (int i = 0; i < num-2; i++) {
 		for (int j = i+1; j < num-1; j++) {
 		    for(int k = j+1; k < num; k++) {
-    			if ((arrival_time[j]+burst_time[j] > arrival_time[k]+burst_time[k]) && arrival_time[i]+burst_time[i] > arrival_time[k]) {
+		        int l = i;
+		        int sum = 0;
+		        while(l >= 0){
+		            sum += arrival_time[l]+burst_time[l];
+		            l--;
+		        }
+    			if ((burst_time[j] > burst_time[k]) && sum >= arrival_time[k]) {
 	    		    int temp = arrival_time[k];
 		    		arrival_time[k] = arrival_time[j];
 			    	arrival_time[j] = temp;
@@ -56,7 +62,7 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
 	    			pid[k] = pid[j];
 		    		pid[j] = temp;
 			    	temp = burst_time[k];
-				burst_time[k] = burst_time[j];
+				    burst_time[k] = burst_time[j];
     				burst_time[j] = temp;
     				temp = priority[k];
 		    		priority[k] = priority[j];
@@ -80,10 +86,10 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
 	    			pid[i] = temp;
 		    		temp = burst_time[j];
 			    	burst_time[j] = burst_time[i];
-				burst_time[i] = temp;
-				temp = priority[j];
+				    burst_time[i] = temp;
+				    temp = priority[j];
 			    	priority[j] = priority[i];
-				priority[i] = temp;
+				    priority[i] = temp;
 			    }
 			}
 		}
@@ -91,7 +97,13 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
 	for (int i = 0; i < num-2; i++) {
 		for (int j = i+1; j < num-1; j++) {
 		    for(int k = j+1; k < num; k++) {
-    			if ((priority[j] > priority[k])) {
+		        int l = i;
+		        int sum = 0;
+		        while(l >= 0){
+		            sum += arrival_time[l]+burst_time[l];
+		            l--;
+		        }
+    			if ((priority[j] > priority[k]) && sum >= arrival_time[k]) {
 	    		    int temp = arrival_time[k];
 		    		arrival_time[k] = arrival_time[j];
 			    	arrival_time[j] = temp;
@@ -99,10 +111,10 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
 	    			pid[k] = pid[j];
 		    		pid[j] = temp;
 			    	temp = burst_time[k];
-				burst_time[k] = burst_time[j];
+				    burst_time[k] = burst_time[j];
     				burst_time[j] = temp;
     				temp = priority[k];
-				priority[k] = priority[j];
+				    priority[k] = priority[j];
     				priority[j] = temp;
 	    		}
 		    }
@@ -148,7 +160,7 @@ int FCFS(int pid[], int arrival_time[], int burst_time[], int priority[], int nu
 
 int SJF(int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
 	swap(pid, arrival_time, burst_time, priority, num);
-    	swapSJF(pid, arrival_time, burst_time, priority, num);
+	swapSJF(pid, arrival_time, burst_time, priority, num);
 	printf("\n\nSJF:\n");
 	int waiting_time[num], turnaround_time[num];
 	int tot_wait = 0, tot_turnaround = 0;
@@ -165,6 +177,7 @@ int SJF(int pid[], int arrival_time[], int burst_time[], int priority[], int num
 	printf("Average response time = ");
 	return 0;
 }
+
 
 int Priority(int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
     swap(pid, arrival_time, burst_time, priority, num);
@@ -204,10 +217,10 @@ int main() {
 	scanf("%d", &timeallocation);
 	FCFS(pid, arrival_time, burst_time, priority, num);
 	SJF(pid, arrival_time, burst_time, priority, num);
-	//SRTF()
-	//RR()
+	//SRTF(pid, arrival_time, burst_time, priority, num)
+	//RR(pid, arrival_time, burst_time, priority, num, timeallocation);
 	Priority(pid, arrival_time, burst_time, priority, num);
-	//PrePriority()
-	//PriorityRR()
+	//PrePriority(pid, arrival_time, burst_time, priority, num)
+	//PriorityRR(pid, arrival_time, burst_time, priority, num, timeallocation)
 	return 0;
 }

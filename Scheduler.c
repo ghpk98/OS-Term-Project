@@ -130,15 +130,12 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
 
 //Calculate waitingtime
 int waitingtime(int pid[], int arrival_time[], int burst_time[], int waiting_time[], int num) {
-    waiting_time[0] = arrival_time[0];
-    int count = arrival_time[0] + burst_time[0];
-    int af = 0;
+    waiting_time[0] = 0;
     for (int i = 1; i < num; i++) {
-        if (count < arrival_time[i]) {
-            count++;
-            af++;
+        waiting_time[i] = burst_time[i - 1] + waiting_time[i - 1] + arrival_time[i - 1] - arrival_time[i];
+        if (arrival_time[i] > arrival_time[i - 1] + waiting_time[i - 1] + burst_time[i - 1]) {
+            waiting_time[i] = 0;
         }
-        waiting_time[i] = burst_time[i - 1] + waiting_time[i - 1] + arrival_time[i - 1] - arrival_time[i]+af;
     }
     return 0;
 }

@@ -128,69 +128,17 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
     }
 }
 
-int RRwaitingtime(int pid[], int arrival_time[], int burst_time[], int RRpid[], int RRburst_time[], int waiting_time[], int num, int RRnum, int timeallocation) {
-    waiting_time[0] = arrival_time[0];
-    int start_time[100];
-    int run_time[100];
-    for (int a = 0; a < num; a++) {
-        start_time[a] = 0;
-        run_time[a] = 0;
-        for (int b = 0; b < RRnum; b++) {
-            if (pid[a] == RRpid[b]) {
-                start_time[a] = 0;
-                for (int c = 0; c < b; c++) {
-                    start_time[a] += RRburst_time[c];
-                }
-                run_time[a] += RRburst_time[b];
-            }
-        }
-        int addfactor;
-        if (burst_time[a] != 0) {
-            addfactor = burst_time[a] % timeallocation;
-            if (addfactor == 0) {
-                addfactor = timeallocation;
-            }
-        }
-        run_time[a] -= addfactor;
-        printf("Start TIME: %d\n", start_time[a]);
-        printf("Run TIME: %d\n", run_time[a]);
-    }
-    /*
-    for (int i = 0; i < num; i++) {
-        int temp = 0;
-        int temp2 = 0;
-        waiting_time[i] = 0;
-        int count = 0;
-        for (int j = 1; j < RRnum; j++) {
-            if (pid[i] == RRpid[j] && i != j) {
-                for (int k = i + 1; k < j; k++) {
-                    waiting_time[i] += RRburst_time[k];
-                    count++;
-                    if (i == 5) {
-                        printf("%d %d %d %d\n", pid[i], RRpid[j], i, j);
-                    }
-                }
-                waiting_time[i] -= temp;
-                temp = waiting_time[i] + RRburst_time[j] + temp2;
-                temp2 += RRburst_time[j];
-                printf("%d: %d\n", i, waiting_time[i]);
-            }
-        }
-        if (count == 1) {
-            waiting_time[i] = waiting_time[i] - burst_time[i];
-        }
-        */
-    for (int i = 0; i < num; i++) {
-        waiting_time[i] = start_time[i] - run_time[i] - arrival_time[i];
-        printf("Final%d: %d\n", i, waiting_time[i]);
-    }
-    return 0;
-}
 //Calculate waitingtime
 int waitingtime(int pid[], int arrival_time[], int burst_time[], int waiting_time[], int num) {
     waiting_time[0] = arrival_time[0];
+    int count = arrival_time[0] + burst_time[0];
+    int af = 0;
     for (int i = 1; i < num; i++) {
-        waiting_time[i] = burst_time[i - 1] + waiting_time[i - 1] + arrival_time[i - 1] - arrival_time[i];
+        if (count < arrival_time[i]) {
+            count++;
+            af++;
+        }
+        waiting_time[i] = burst_time[i - 1] + waiting_time[i - 1] + arrival_time[i - 1] - arrival_time[i]+af;
     }
     return 0;
 }
@@ -206,19 +154,31 @@ int turnaroundtime(int pid[], int arrival_time[], int burst_time[], int waiting_
 int FCFS(int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
     swap(pid, arrival_time, burst_time, priority, num);
     printf("\n\nFCFS:\n");
-    int waiting_time[100], turnaround_time[100];
+    int *waiting_time, *turnaround_time;
+    waiting_time = (int*)malloc(sizeof(int) * num);
+    turnaround_time = (int*)malloc(sizeof(int) * num);
     int tot_wait = 0, tot_turnaround = 0;
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
-    printf("Process ID   Burst Time   Waiting Time   Turnaround Time    Priority      Response Time \n");
+    printf("Process ID   Burst Time   Waiting Time   Turnaround Time      Response Time     Priority \n");
+    FILE* ptr;
+    ptr = fopen("C:\\Users\\Gunho\\Desktop\\FCFS.txt", "w");
+    fprintf(ptr, "%d\n", num);
     for (int i = 0; i < num; i++) {
         tot_wait = tot_wait + waiting_time[i];
         tot_turnaround = tot_turnaround + turnaround_time[i];
-        printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], priority[i]);
+        printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
+        fprintf(ptr, "%d %d %d %d %d %d %d\n", pid[i], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
     }
-    printf("Average waiting time = %.2f\n", (float)tot_wait / (float)num);
-    printf("Average turnaround time = %.2f\n", (float)tot_turnaround / (float)num);
-    printf("Average response time = ");
+    float avg_wait = (float)tot_wait / (float)num;
+    float avg_turnaround = (float)tot_turnaround / (float)num;
+    float avg_response = avg_wait;
+    fprintf(ptr, "%.2f\n", avg_wait);
+    fprintf(ptr, "%.2f\n", avg_turnaround);
+    fprintf(ptr, "%.2f\n", avg_response);
+    printf("Average waiting time = %.2f\n", avg_wait);
+    printf("Average turnaround time = %.2f\n", avg_turnaround);
+    printf("Average response time = %.2f\n", avg_response);
     return 0;
 }
 
@@ -226,148 +186,69 @@ int SJF(int pid[], int arrival_time[], int burst_time[], int priority[], int num
     swap(pid, arrival_time, burst_time, priority, num);
     swapSJF(pid, arrival_time, burst_time, priority, num);
     printf("\n\nSJF:\n");
-    int waiting_time[100], turnaround_time[100];
+    int* waiting_time, * turnaround_time;
+    waiting_time = (int*)malloc(sizeof(int) * num);
+    turnaround_time = (int*)malloc(sizeof(int) * num);
     int tot_wait = 0, tot_turnaround = 0;
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
-    printf("Process ID   Burst Time   Waiting Time   Turnaround Time    Priority      Response Time \n");
+    printf("Process ID   Burst Time   Waiting Time   Turnaround Time      Response Time     Priority \n");
+    FILE* ptr;
+    ptr = fopen("C:\\Users\\Gunho\\Desktop\\SJF.txt", "w");
+    fprintf(ptr, "%d\n", num);
     for (int i = 0; i < num; i++) {
         tot_wait = tot_wait + waiting_time[i];
         tot_turnaround = tot_turnaround + turnaround_time[i];
-        printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], priority[i]);
+        printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
+        fprintf(ptr, "%d %d %d %d %d %d %d\n", pid[i], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
     }
-    printf("Average waiting time = %.2f\n", (float)tot_wait / (float)num);
-    printf("Average turnaround time = %.2f\n", (float)tot_turnaround / (float)num);
-    printf("Average response time = ");
+    float avg_wait = (float)tot_wait / (float)num;
+    float avg_turnaround = (float)tot_turnaround / (float)num;
+    float avg_response = avg_wait;
+    fprintf(ptr, "%.2f\n", avg_wait);
+    fprintf(ptr, "%.2f\n", avg_turnaround);
+    fprintf(ptr, "%.2f\n", avg_response);
+    printf("Average waiting time = %.2f\n", avg_wait);
+    printf("Average turnaround time = %.2f\n", avg_turnaround);
+    printf("Average response time = %.2f\n", avg_response);
     return 0;
 }
-
-int RR(int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation) {
-    swap(pid, arrival_time, burst_time, priority, num);
-    printf("\n\nRR:\n");
-    int RRnum = 0;
-    for (int a = 0; a < num; a++) {
-        RRnum += (burst_time[a] + timeallocation - 1) / timeallocation;
-    }
-    int RRpid[100], RRburst_time[100];
-    int temp_pid[100], temp2_pid[100], temp2_arrival_time[100], temp_burst_time[100], temp2_burst_time[100];
-    int temp_num = num;
-    int temp_num2 = num - 1;
-    //Setup
-    for (int b = 1; b < num; b++) {
-        temp2_pid[b - 1] = pid[b];
-        temp2_arrival_time[b - 1] = arrival_time[b];
-        temp2_burst_time[b - 1] = burst_time[b];
-    }
-    int loc = 1;
-    temp_pid[0] = pid[0];
-    temp_burst_time[0] = burst_time[0];
-    //All cases
-    int pid_temp, burst_time_temp;
-    for (int c = 0; c < RRnum; c++) {
-        RRpid[c] = temp_pid[0];
-        if (temp_burst_time[0] > timeallocation) {
-            for (int z = 0; z < temp_num2; z++) {
-                if (temp2_arrival_time[z] <= (c + 1) * timeallocation) {
-                    temp_pid[loc] = temp2_pid[z];
-                    temp_burst_time[loc] = temp2_burst_time[z];
-                    for (int y = z; y < temp_num2 - 1; y++) {
-                        temp2_pid[y] = temp2_pid[y + 1];
-                        temp2_arrival_time[y] = temp2_arrival_time[y + 1];
-                        temp2_burst_time[y] = temp2_burst_time[y + 1];
-                    }
-                    temp_num2--;
-                    z--;
-                    loc++;
-                }
-            }
-            RRburst_time[c] = timeallocation;
-            temp_burst_time[0] -= timeallocation;
-            pid_temp = temp_pid[0];
-            burst_time_temp = temp_burst_time[0];
-            for (int d = 0; d < temp_num - 1; d++) {
-                temp_pid[d] = temp_pid[d + 1];
-                temp_burst_time[d] = temp_burst_time[d + 1];
-            }
-            temp_pid[temp_num - temp_num2 - 1] = pid_temp;
-            temp_burst_time[temp_num - temp_num2 - 1] = burst_time_temp;
-        }
-        else {
-            for (int z = 0; z < temp_num2; z++) {
-                if (temp2_arrival_time[z] <= (c + 1) * timeallocation) {
-                    temp_pid[loc] = temp2_pid[z];
-                    temp_burst_time[loc] = temp2_burst_time[z];
-                    for (int y = z; y < temp_num2 - 1; y++) {
-                        temp2_pid[y] = temp2_pid[y + 1];
-                        temp2_arrival_time[y] = temp2_arrival_time[y + 1];
-                        temp2_burst_time[y] = temp2_burst_time[y + 1];
-                    }
-                    temp_num2--;
-                    z--;
-                    loc++;
-                }
-            }
-            RRburst_time[c] = temp_burst_time[0];
-            for (int d = 0; d < temp_num - 1; d++) {
-                temp_pid[d] = temp_pid[d + 1];
-                temp_burst_time[d] = temp_burst_time[d + 1];
-            }
-            temp_num--;
-            loc--;
-        }
-        printf("Loc: %d %d %d %d %d %d %d", loc, temp_pid[0], temp_pid[1], temp_pid[2], temp_pid[3], temp_pid[4], temp_pid[5]);
-        printf("\n");
-    }
-
-    printf("%d", RRnum);
-
-    int waiting_time[100], turnaround_time[100];
-    int tot_wait = 0, tot_turnaround = 0;
-    RRwaitingtime(pid, arrival_time, burst_time, RRpid, RRburst_time, waiting_time, num, RRnum, timeallocation);
-    turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
-    printf("Process ID   Burst Time\n");
-    for (int i = 0; i < RRnum; i++) {
-        printf(" %d\t\t%d\t\t\n", RRpid[i], RRburst_time[i]);
-    }
-    printf("Process ID   Waiting Time   Turnaround Time    Priority      Response Time \n");
-    for (int i = 0; i < num; i++) {
-        printf(" %d\t\t%d\t\t%d\t\t%d\n", pid[i], waiting_time[i], turnaround_time[i], priority[i]);
-    }
-    for (int i = 0; i < num; i++) {
-        tot_wait = tot_wait + waiting_time[i];
-        tot_turnaround = tot_turnaround + turnaround_time[i];
-        //tot_turnaround = tot_turnaround + turnaround_time[i];
-    }
-    printf("Average waiting time = %.2f\n", (float)tot_wait / (float)num);
-    printf("Average turnaround time = %.2f\n", (float)tot_turnaround / (float)num);
-    printf("Average response time = ");
-    return 0;
-}
-
 
 int Priority(int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
     swap(pid, arrival_time, burst_time, priority, num);
     swapPriority(pid, arrival_time, burst_time, priority, num);
     printf("\n\nPriority:\n");
-    int waiting_time[100], turnaround_time[100];
+    int* waiting_time, * turnaround_time;
+    waiting_time = (int*)malloc(sizeof(int) * num);
+    turnaround_time = (int*)malloc(sizeof(int) * num);
     int tot_wait = 0, tot_turnaround = 0;
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
-    printf("Process ID   Burst Time   Waiting Time   Turnaround Time    Priority      Response Time \n");
+    printf("Process ID   Burst Time   Waiting Time   Turnaround Time      Response Time     Priority \n");
+    FILE* ptr;
+    ptr = fopen("C:\\Users\\Gunho\\Desktop\\Priority.txt", "w");
+    fprintf(ptr, "%d\n", num);
     for (int i = 0; i < num; i++) {
         tot_wait = tot_wait + waiting_time[i];
         tot_turnaround = tot_turnaround + turnaround_time[i];
-        printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], priority[i]);
+        printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
+        fprintf(ptr, "%d %d %d %d %d %d %d\n", pid[i], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
     }
-    printf("Average waiting time = %.2f\n", (float)tot_wait / (float)num);
-    printf("Average turnaround time = %.2f\n", (float)tot_turnaround / (float)num);
-    printf("Average response time = ");
+    float avg_wait = (float)tot_wait / (float)num;
+    float avg_turnaround = (float)tot_turnaround / (float)num;
+    float avg_response = avg_wait;
+    fprintf(ptr, "%.2f\n", avg_wait);
+    fprintf(ptr, "%.2f\n", avg_turnaround);
+    fprintf(ptr, "%.2f\n", avg_response);
+    printf("Average waiting time = %.2f\n", avg_wait);
+    printf("Average turnaround time = %.2f\n", avg_turnaround);
+    printf("Average response time = %.2f\n", avg_response);
     return 0;
 }
 
 int main() {
     FILE* fptr;
-    fptr = fopen("C:\\Users\\Gunho\\source\\repos\\Os Scheduling\\Os Scheduling\\text.txt", "r");
+    fptr = fopen("C:\\Users\\Gunho\\Desktop\\text.txt", "r");
     if (fptr == NULL)
     {
         printf("File Not Found!");
@@ -388,7 +269,7 @@ int main() {
     FCFS(pid, arrival_time, burst_time, priority, num);
     SJF(pid, arrival_time, burst_time, priority, num);
     //SRTF(pid, arrival_time, burst_time, priority, num);
-    RR(pid, arrival_time, burst_time, priority, num, timeallocation);
+    //RR(pid, arrival_time, burst_time, priority, num, timeallocation);
     Priority(pid, arrival_time, burst_time, priority, num);
     //PrePriority(pid, arrival_time, burst_time, priority, num)
     //PriorityRR(pid, arrival_time, burst_time, priority, num, timeallocation)

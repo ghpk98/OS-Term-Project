@@ -49,9 +49,19 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
         int sum = 0;
         for (int x = 0; x <= i; x++) {
             if (x == 0) {
+                int t = arrival_time[x + 1];
+                while (t > arrival_time[x] + burst_time[x]) {
+                    t--;
+                    sum++;
+                }
                 sum += arrival_time[x] + burst_time[x];
             }
             else {
+                int t = arrival_time[x + 1];
+                while (t > arrival_time[x] + burst_time[x]) {
+                    t--;
+                    sum++;
+                }
                 sum += burst_time[x];
             }
         }
@@ -101,9 +111,19 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
         int sum = 0;
         for (int x = 0; x <= i; x++) {
             if (x == 0) {
+                int t = arrival_time[x + 1];
+                while (t > arrival_time[x] + burst_time[x]) {
+                    t--;
+                    sum++;
+                }
                 sum += arrival_time[x] + burst_time[x];
             }
             else {
+                int t = arrival_time[x + 1];
+                while (t > arrival_time[x] + burst_time[x]) {
+                    t--;
+                    sum++;
+                }
                 sum += burst_time[x];
             }
         }

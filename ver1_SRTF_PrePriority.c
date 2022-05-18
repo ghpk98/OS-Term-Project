@@ -68,7 +68,7 @@ int SRTF(int pid[], int arrival_time[], int burst_time[], int priority[], int nu
 	
 	int i, completed=0;
 	int processed_t;
-	int start_t =0, fin_t=0, now_running=0, t=0;
+	int now_running=0, t=0;
 	int remaining_t[num], complete[num], wait_t[num], wait_start[num], first_processed_start_t[num];
 	for(i=0; i<num; i++){
 		remaining_t[i] = burst_time[i];
@@ -76,7 +76,9 @@ int SRTF(int pid[], int arrival_time[], int burst_time[], int priority[], int nu
 		wait_t[i] = 0;
 		wait_start[i] = arrival_time[i];
 		first_processed_start_t[i]=0;
-	}	
+	}
+	int start_t = arrival_time[0], fin_t=arrival_time[0];	//when first process starts after 0
+
 	FILE* ptr;
     ptr = fopen("SRTF.txt", "w");
 	printf("\n\nSRTF:\n");
@@ -225,7 +227,7 @@ int PrePriority(int pid[], int arrival_time[], int burst_time[], int priority[],
 	
 	int i, now_running=0, completed=0;
 	int processed_t;
-	int start_t =0, fin_t=0, t=0;
+	int t=0;
 	int remaining_t[num], complete[num], wait_t[num], wait_start[num], first_processed_start_t[num];
 	for(i=0; i<num; i++){
 		remaining_t[i] = burst_time[i];
@@ -233,7 +235,8 @@ int PrePriority(int pid[], int arrival_time[], int burst_time[], int priority[],
 		wait_t[i] = 0;
 		wait_start[i] = arrival_time[i];
 		first_processed_start_t[i] =0;
-	}	
+	}
+	int start_t = arrival_time[0], fin_t=arrival_time[0];	//when first process starts after 0	
 	FILE* ptr;
     ptr = fopen("PrePriority.txt", "w");
 	printf("\n\nPrePriority:\n");

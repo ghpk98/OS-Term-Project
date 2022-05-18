@@ -212,7 +212,7 @@ int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin
 				min = arr[i];
 				min_idx = i;				
 			}
-			else if((min == arr[i]) && (arrival_time[i]<arrival_time[min])){
+			else if((min == arr[i]) && (arrival_time[i]<arrival_time[min_idx])){
 				min = arr[i];
 				min_idx = i;			
 			}

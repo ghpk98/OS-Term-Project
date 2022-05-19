@@ -127,6 +127,7 @@ int SRTF(int pid[], int arrival_time[], int burst_time[], int priority[], int nu
 			if(now_running != -1){	//start processing w/o delay
 				start_t = fin_t;	//start_t of new process
 				wait_t[now_running] += start_t - wait_start[now_running];
+				first_processed_start_t[now_running] = start_t;
 			}
 			else if((now_running == -1) && (i!=num-1)){		//CPU is idle until next process comes
 				start_t = arrival_time[i+1];
@@ -283,6 +284,7 @@ int PrePriority(int pid[], int arrival_time[], int burst_time[], int priority[],
 			if(now_running != -1){	//start processing w/o delay
 				start_t = fin_t;	//start_t of new process
 				wait_t[now_running] += start_t - wait_start[now_running];
+				first_processed_start_t[now_running] = start_t;
 			}
 			else if((now_running == -1) && (i!=num-1)){		//CPU is idle until next process comes
 				start_t = arrival_time[i+1];

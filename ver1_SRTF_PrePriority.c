@@ -348,3 +348,5 @@ int PrePriority(int pid[], int arrival_time[], int burst_time[], int priority[],
 	fclose(ptr);
 	return 0;	
 }
+
+//same as tempver2_SRTF_PrePriority in local file

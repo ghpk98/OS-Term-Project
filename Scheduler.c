@@ -783,7 +783,6 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
                 continue;
         }
         else {		//끝나고 새 process 도착.  또는 새 프로세스 도착 전에 수행 완료
-            wait_t[now_running] = 0;
             fin_t += remaining_t[now_running];
             first_processed_start_t[now_running] = arrival_time[now_running];
 
@@ -922,7 +921,6 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
                 continue;
         }
         else {		//끝나고 새 process 도착.  또는 새 프로세스 도착 전에 수행 완료
-            wait_t[now_running] = 0;
             fin_t += remaining_t[now_running];
             first_processed_start_t[now_running] = arrival_time[now_running];
 

@@ -126,7 +126,7 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
 			if(completed == num)
 				break;
 			//find idx of process w/ least remaining time
-			if((fin_t < arrival_time[i]) &&(completed!=num)){
+			if((fin_t < arrival_time[i]) &&(completed==i)){
 				now_running = i;
 				fin_t = arrival_time[i];	//idle cpu from end of prev process to arrival of i
 			}
@@ -297,7 +297,7 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
 				break;
 			
 			//find idx of process w/ highest priority
-			if((fin_t < arrival_time[i]) &&(completed!=num)){
+			if((fin_t < arrival_time[i]) &&(completed==i)){
 				now_running = i;
 				fin_t = arrival_time[i];	//idle cpu from end of prev process to arrival of i
 			}			

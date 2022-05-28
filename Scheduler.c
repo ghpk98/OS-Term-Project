@@ -183,7 +183,7 @@ int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
     FILE* ptr;
     ptr = fopen("FCFS.txt", "w");
-    fprintf(ptr, "%d \n", num);
+//    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
     for (int i = 0; i < num; i++) {
@@ -223,7 +223,7 @@ int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
     FILE* ptr;
     ptr = fopen("SJF.txt", "w");
-    fprintf(ptr, "%d \n", num);
+//    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
     for (int i = 0; i < num; i++) {
@@ -678,6 +678,7 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
         waiting_time[i] = end[i] - burst_time[i] - arrival_time[i];
     }
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
+    fprintf(ptr, "-\n");
     printf("\n");
     printf("Process ID   Burst Time   Waiting Time   Turnaround Time      Response Time     Priority \n");
     for (int i = 0; i < num; i++) {
@@ -692,7 +693,7 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
     float avg_wait = (float)tot_wait / (float)num;
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = (float)tot_response / (float)num;
-    fprintf(ptr, "-\n");
+
     fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
 //    fprintf(ptr, "%.2f\n", avg_turnaround);
 //    fprintf(ptr, "%.2f\n", avg_response);

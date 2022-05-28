@@ -202,9 +202,9 @@ int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority
     float avg_wait = (float)tot_wait / (float)num;
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = avg_wait;
-    fprintf(ptr, "%.2f \n", avg_wait);
-    fprintf(ptr, "%.2f \n", avg_turnaround);
-    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f \n", avg_turnaround);
+//    fprintf(ptr, "%.2f \n", avg_response);
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
@@ -242,9 +242,9 @@ int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[
     float avg_wait = (float)tot_wait / (float)num;
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = avg_wait;
-    fprintf(ptr, "%.2f \n", avg_wait);
-    fprintf(ptr, "%.2f \n", avg_turnaround);
-    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f \n", avg_turnaround);
+//    fprintf(ptr, "%.2f \n", avg_response);
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
@@ -383,7 +383,7 @@ int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[]
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
     FILE* ptr;
     ptr = fopen("RR.txt", "w");
-    fprintf(ptr, "%d \n", num);
+//    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
     total[0] = arrival_time[0];
@@ -459,9 +459,9 @@ int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[]
     float avg_wait = (float)tot_wait / (float)num;
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = (float)tot_response / (float)num;
-    fprintf(ptr, "%.2f \n", avg_wait);
-    fprintf(ptr, "%.2f \n", avg_turnaround);
-    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f \n", avg_turnaround);
+//    fprintf(ptr, "%.2f \n", avg_response);
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
@@ -480,7 +480,7 @@ int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int prio
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
     FILE* ptr;
     ptr = fopen("Priority.txt", "w");
-    fprintf(ptr, "%d \n", num);
+//    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
     for (int i = 0; i < num; i++) {
@@ -499,9 +499,9 @@ int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int prio
     float avg_wait = (float)tot_wait / (float)num;
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = avg_wait;
-    fprintf(ptr, "%.2f \n", avg_wait);
-    fprintf(ptr, "%.2f \n", avg_turnaround);
-    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f \n", avg_turnaround);
+//   fprintf(ptr, "%.2f \n", avg_response);
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
@@ -616,7 +616,7 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
     FILE* ptr;
     ptr = fopen("PriorityRR.txt", "w");
-    fprintf(ptr, "%d\n", num);
+//    fprintf(ptr, "%d\n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
     total1[0] = arrival_time[0];
@@ -693,13 +693,44 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = (float)tot_response / (float)num;
     fprintf(ptr, "-\n");
-    fprintf(ptr, "%.2f\n", avg_wait);
-    fprintf(ptr, "%.2f\n", avg_turnaround);
-    fprintf(ptr, "%.2f\n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f\n", avg_turnaround);
+//    fprintf(ptr, "%.2f\n", avg_response);
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
     return 0;
+}
+
+int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin_t) {
+    //returns index of minimum value in array
+        //arr can be either priority or remaining time
+    int i, min;
+    int min_idx = -1;
+    for (i = 0; i < num; i++) {
+        if (complete[i] == 0 && (arrival_time[i] <= fin_t)) {
+            min = arr[i];
+            min_idx = i;
+            break;
+        }
+    }	//set min_idx to any pid that is incomplete & already arrived before/at fin_t
+
+    for (i = 0; i < num; i++) {
+        if ((complete[i] == 0) && (arrival_time[i] <= fin_t)) {
+            if (min > arr[i]) {
+                min = arr[i];
+                min_idx = i;
+                //printf("minvalue1: [min_idx] = %d \n", min_idx);
+            }
+            else if ((min == arr[i]) && (arrival_time[i] < arrival_time[min_idx])) {
+                min = arr[i];
+                min_idx = i;
+            }
+        }
+    }
+
+    return min_idx;
+    //min_idx == -1 when all processes are complete  OR when CPU becomes idle (completed all processes up to given time)
 }
 
 int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
@@ -719,7 +750,7 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
     int start_t = arrival_time[0], fin_t = arrival_time[0];	//when first process starts after 0
     FILE* ptr;
     ptr = fopen("SRTF.txt", "w");
-    fprintf(ptr, "%d \n", num);
+//    fprintf(ptr, "%d \n", num);
     printf("S E PROCESS \n");
     fprintf(ptr, "S E PROCESS \n");
     printf("\n\nSRTF:\n");
@@ -833,46 +864,15 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
     }
 
 
-    fprintf(ptr, "%.2f \n", avg_wait);
-    fprintf(ptr, "%.2f \n", avg_turnaround);
-    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f \n", avg_turnaround);
+//    fprintf(ptr, "%.2f \n", avg_response);
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
 
     fclose(ptr);
     return 0;
-}
-
-int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin_t) {
-    //returns index of minimum value in array
-        //arr can be either priority or remaining time
-    int i, min;
-    int min_idx = -1;
-    for (i = 0; i < num; i++) {
-        if (complete[i] == 0 && (arrival_time[i] <= fin_t)) {
-            min = arr[i];
-            min_idx = i;
-            break;
-        }
-    }	//set min_idx to any pid that is incomplete & already arrived before/at fin_t
-
-    for (i = 0; i < num; i++) {
-        if ((complete[i] == 0) && (arrival_time[i] <= fin_t)) {
-            if (min > arr[i]) {
-                min = arr[i];
-                min_idx = i;
-                //printf("minvalue1: [min_idx] = %d \n", min_idx);
-            }
-            else if ((min == arr[i]) && (arrival_time[i] < arrival_time[min_idx])) {
-                min = arr[i];
-                min_idx = i;
-            }
-        }
-    }
-
-    return min_idx;
-    //min_idx == -1 when all processes are complete  OR when CPU becomes idle (completed all processes up to given time)
 }
 
 int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
@@ -894,7 +894,7 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
     FILE* ptr;
     ptr = fopen("PrePriority.txt", "w");
     printf("\n\nPrePriority:\n");
-    fprintf(ptr, "%d \n", num);
+//    fprintf(ptr, "%d \n", num);
     printf("S E PROCESS \n");
     fprintf(ptr, "S E PROCESS \n");
     first_processed_start_t[now_running] = arrival_time[now_running];
@@ -1000,9 +1000,9 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
     for (i = 0; i < num; i++) {
         fprintf(ptr, "%d %d %d %d %d %d \n", pid[i], burst_time[i], wait_t[i], burst_time[i] + wait_t[i], first_processed_start_t[i] - arrival_time[i], priority[i]);
     }
-    fprintf(ptr, "%.2f \n", avg_wait);
-    fprintf(ptr, "%.2f \n", avg_turnaround);
-    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
+//    fprintf(ptr, "%.2f \n", avg_turnaround);
+//    fprintf(ptr, "%.2f \n", avg_response);
     printf("Average waiting time = %.2f \n", avg_wait);
     printf("Average turnaround time = %.2f \n", avg_turnaround);
     printf("Average response time = %.2f \n", avg_response);

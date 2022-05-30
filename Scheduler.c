@@ -172,7 +172,7 @@ int responsetime() {
 
 }
 
-int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
+int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
     printf("\n\nFCFS:\n");
     int* waiting_time, * turnaround_time;
@@ -181,8 +181,11 @@ int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority
     int tot_wait = 0, tot_turnaround = 0;
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "FCFS.txt");
     FILE* ptr;
-    ptr = fopen("FCFS.txt", "w");
+    ptr = fopen(d, "w");
     //    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -211,7 +214,7 @@ int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority
     return 0;
 }
 
-int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
+int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
     swapSJF(pid, arrival_time, burst_time, priority, num);
     printf("\n\nSJF:\n");
@@ -221,8 +224,11 @@ int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[
     int tot_wait = 0, tot_turnaround = 0;
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "SJF.txt");
     FILE* ptr;
-    ptr = fopen("SJF.txt", "w");
+    ptr = fopen(d, "w");
     //    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -251,7 +257,7 @@ int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[
     return 0;
 }
 
-int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation) {
+int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
     printf("\n\nRR:\n");
     int RRnum = 0;
@@ -381,8 +387,11 @@ int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[]
     response_time = (int*)malloc(sizeof(int) * num);
     total = (int*)malloc(sizeof(int) * num);
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "RR.txt");
     FILE* ptr;
-    ptr = fopen("RR.txt", "w");
+    ptr = fopen(d, "w");
     //    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -468,7 +477,7 @@ int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[]
     return 0;
 }
 
-int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
+int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
     swapPriority(pid, arrival_time, burst_time, priority, num);
     printf("\n\nPriority:\n");
@@ -478,8 +487,11 @@ int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int prio
     int tot_wait = 0, tot_turnaround = 0;
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "PRIORITY.txt");
     FILE* ptr;
-    ptr = fopen("PRIORITY.txt", "w");
+    ptr = fopen(d, "w");
     //    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -508,7 +520,7 @@ int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int prio
     return 0;
 }
 
-int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation) {
+int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
     swapPriority(pid, arrival_time, burst_time, priority, num);
     printf("\n\nPriorityRR:\n");
@@ -614,8 +626,11 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
     response_time = (int*)malloc(sizeof(int) * num);
     total1 = (int*)malloc(sizeof(int) * num);
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "PRR.txt");
     FILE* ptr;
-    ptr = fopen("PRR.txt", "w");
+    ptr = fopen(d, "w");
     //    fprintf(ptr, "%d\n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -734,7 +749,7 @@ int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin
     //min_idx == -1 when all processes are complete  OR when CPU becomes idle (completed all processes up to given time)
 }
 
-int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
+int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
 
     int i, completed = 0;
@@ -749,8 +764,11 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
         first_processed_start_t[i] = 0;
     }
     int start_t = arrival_time[0], fin_t = arrival_time[0];	//when first process starts after 0
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "SRTF.txt");
     FILE* ptr;
-    ptr = fopen("SRTF.txt", "w");
+    ptr = fopen(d, "w");
     //    fprintf(ptr, "%d \n", num);
     printf("S E PROCESS \n");
     fprintf(ptr, "S E PROCESS \n");
@@ -875,7 +893,7 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
     return 0;
 }
 
-int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num) {
+int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
 
     int i, now_running = 0, completed = 0;
@@ -890,9 +908,11 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
         first_processed_start_t[i] = 0;
     }
     int start_t = arrival_time[0], fin_t = arrival_time[0];	//when first process starts after 0
-
+    char d[50];
+    strcpy(d, dir);
+    strcat(d, "PPRIORITY.txt");
     FILE* ptr;
-    ptr = fopen("PPRIORITY.txt", "w");
+    ptr = fopen(d, "w");
     printf("\n\nPrePriority:\n");
     //    fprintf(ptr, "%d \n", num);
     printf("S E PROCESS \n");
@@ -1011,12 +1031,12 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
 }
 
 int main() {
-    char dir_name[100];
-    char file_name[100];
+    char dir[50], file_name[50], dir_name[50];
     printf("Enter the file name to sort: ");
     scanf("%s", &dir_name, &file_name);
     strcpy(file_name, dir_name);
     strcat(dir_name, "\\");
+    strcpy(dir, dir_name);
     strcat(file_name, ".txt");
     strcat(dir_name, file_name);
     FILE* fptr;
@@ -1040,13 +1060,13 @@ int main() {
     }
     int timeallocation;
     fscanf(fptr, "%d", &timeallocation);
-    FCFS(p, pid, arrival_time, burst_time, priority, num);
-    SJF(p, pid, arrival_time, burst_time, priority, num);
-    SRTF(p, pid, arrival_time, burst_time, priority, num);
-    RR(p, pid, arrival_time, burst_time, priority, num, timeallocation);
-    Priority(p, pid, arrival_time, burst_time, priority, num);
-    PrePriority(p, pid, arrival_time, burst_time, priority, num);
-    PriorityRR(p, pid, arrival_time, burst_time, priority, num, timeallocation);
+    FCFS(p, pid, arrival_time, burst_time, priority, num, dir);
+    SJF(p, pid, arrival_time, burst_time, priority, num, dir);
+    SRTF(p, pid, arrival_time, burst_time, priority, num, dir);
+    RR(p, pid, arrival_time, burst_time, priority, num, timeallocation, dir);
+    Priority(p, pid, arrival_time, burst_time, priority, num, dir);
+    PrePriority(p, pid, arrival_time, burst_time, priority, num, dir);
+    PriorityRR(p, pid, arrival_time, burst_time, priority, num, timeallocation, dir);
     fclose(fptr);
     return 0;
 }

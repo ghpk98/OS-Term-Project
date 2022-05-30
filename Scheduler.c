@@ -258,7 +258,10 @@ int SJF(char p[], int pid[], int arrival_time[], int burst_time[], int priority[
     return 0;
 }
 
-int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation, char dir[]) {
+int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, int timeallocation, char 
+
+
+[]) {
     swap(pid, arrival_time, burst_time, priority, num);
     printf("\n\nRR:\n");
     int RRnum = 0;
@@ -500,14 +503,14 @@ int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int prio
         printf("%d\t\t%d\t\t%d\n", arrival_time[i] + waiting_time[i], burst_time[i], pid[i]);
         fprintf(ptr, "%d %d %c%d \n", (arrival_time[i] + waiting_time[i]), arrival_time[i] + waiting_time[i] + burst_time[i], p[i], pid[i]);
     }
-    fprintf(ptr, "- \n");
+    fprintf(ptr, "-\n");
     printf("\n");
     printf("Process ID   Burst Time   Waiting Time   Turnaround Time      Response Time     Priority \n");
     for (int i = 0; i < num; i++) {
         tot_wait = tot_wait + waiting_time[i];
         tot_turnaround = tot_turnaround + turnaround_time[i];
         printf(" %d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
-        fprintf(ptr, "%d %d %d %d %d %d \n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
+        fprintf(ptr, "%d %d %d %d %d %d\n", pid[i], burst_time[i], waiting_time[i], turnaround_time[i], waiting_time[i], priority[i]);
     }
     float avg_wait = (float)tot_wait / (float)num;
     float avg_turnaround = (float)tot_turnaround / (float)num;
@@ -719,6 +722,7 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
     return 0;
 }
 
+
 int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin_t) {
     //returns index of minimum value in array
         //arr can be either priority or remaining time
@@ -737,7 +741,6 @@ int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin
             if (min > arr[i]) {
                 min = arr[i];
                 min_idx = i;
-                //printf("minvalue1: [min_idx] = %d \n", min_idx);
             }
             else if ((min == arr[i]) && (arrival_time[i] < arrival_time[min_idx])) {
                 min = arr[i];
@@ -750,120 +753,166 @@ int minvalue_arr(int arr[], int arrival_time[], int complete[], int num, int fin
     //min_idx == -1 when all processes are complete  OR when CPU becomes idle (completed all processes up to given time)
 }
 
+int preemp(int arrival_time[], int start, int now_running, int num, int remaining_t[], int complete[]){
+	int i, processed_t, k=0, min;
+	int idx[num];
+	for(i = now_running +1; start + remaining_t[now_running] > arrival_time[i]; i++){
+			processed_t = arrival_time[i] - start;
+			if((i<num) && remaining_t[now_running] - processed_t > remaining_t[i]  && (complete[i]==0) && start < arrival_time[i] ){
+				idx[k] = i;
+				k++;
+			}
+		}
+	if(k==0)
+		return -1;	//no preemptive process
+	else if(k==1)
+		return idx[0];
+	else{	//2 or more possible preemptive processes
+		min = idx[0];
+		for(i=0; i<k-1; i++){
+			if(remaining_t[idx[i+1]] < remaining_t[min] && arrival_time[idx[i+1]]<arrival_time[min] )
+				min = idx[i+1];
+		}
+		return min;
+	}
+}
+
+int preemp_PrePriority(int arrival_time[], int start, int now_running, int num, int remaining_t[], int priority[], int complete[]){
+	int i, k=0, min;
+	int idx[num];
+	for(i = now_running +1; start + remaining_t[now_running] > arrival_time[i]; i++){
+			if((i<num) && priority[now_running]  > priority[i]  && (complete[i]==0) && start < arrival_time[i] ){
+				idx[k] = i;
+				k++;
+			}
+		}
+	if(k==0)
+		return -1;	//no preemptive process
+	else if(k==1)
+		return idx[0];
+	else{	//2 or more possible preemptive processes
+		min = idx[0];
+		for(i=0; i<k-1; i++){
+			if(priority[idx[i+1]] < priority[min] && arrival_time[idx[i+1]]<arrival_time[min] )
+				min = idx[i+1];
+		}
+		return min;
+	}
+}
+
 int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
 
-    int i, completed = 0;
+	int next=0, min=-1;
+    int i, j, completed = 0;
     int processed_t;
     int now_running = 0, t = 0;
     int remaining_t[200], complete[200], wait_t[200], wait_start[200], first_processed_start_t[200];
+	int start_t[num], fin_t[num];
     for (i = 0; i < num; i++) {
         remaining_t[i] = burst_time[i];
         complete[i] = 0;
         wait_t[i] = 0;
         wait_start[i] = arrival_time[i];
-        first_processed_start_t[i] = 0;
+        first_processed_start_t[i] = arrival_time[i];
+		start_t[i] = arrival_time[i]; 
+		fin_t[i] = arrival_time[i];
     }
-    int start_t = arrival_time[0], fin_t = arrival_time[0];	//when first process starts after 0
+
     char d[50];
     strcpy(d, dir);
-    strcat(d, "SRTF.txt");
+    strcat(d, "algo_SRTF.txt");
     FILE* ptr;
     ptr = fopen(d, "w");
-    //    fprintf(ptr, "%d \n", num);
+    
     printf("S E PROCESS \n");
     fprintf(ptr, "S E PROCESS \n");
     printf("\n\nSRTF:\n");
 
-    first_processed_start_t[now_running] = arrival_time[now_running];
-    //compare current process & new arrivals
-    for (i = 1; i < num; i++) {
+    if(num>1)
+    	i = now_running + 1;
+    	
+	while(completed != num){
+		if(start_t[now_running] + remaining_t[now_running] > arrival_time[i]){	//process i arrives before now running process ends
+			next = preemp(arrival_time, start_t[now_running], now_running, num, remaining_t, complete);
+			if(next !=-1){
+				remaining_t[now_running] -= arrival_time[next] - start_t[now_running];
+				fin_t[now_running] = arrival_time[next];
+				printf("%d\t\t%d\t\t%c%d \n", start_t[now_running], arrival_time[next], p[now_running], pid[now_running]);
+				fprintf(ptr, "%d %d %c%d \n", start_t[now_running], arrival_time[next], p[now_running], pid[now_running]);
 
-        if (now_running == i)	//CPU was idle until this process came.
-            continue;
+				now_running = next;
+			}
 
-        if ((remaining_t[now_running] > arrival_time[i] - start_t)) {	//new arrival before finishing current process			
-            processed_t = arrival_time[i] - fin_t;
-            remaining_t[now_running] -= processed_t;
-            fin_t += processed_t;
-            if (remaining_t[now_running] > remaining_t[i]) {	//preemptive switch
+		    else{    //finished processing w/o preemptive switch	next == -1
+        		fin_t[now_running] = start_t[now_running] + remaining_t[now_running];
+        		remaining_t[now_running] = 0;
+        		printf("%d\t\t%d\t\t%c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+        		fprintf(ptr, "%d %d %c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
 
-                wait_start[now_running] = arrival_time[i];	//count wait time from this point in time
-                wait_t[i] += fin_t - arrival_time[i];
+        		complete[now_running] = 1; 
+        		completed++;
+        		if(completed==num)
+        		    break;
+        		
+        		next = minvalue_arr(remaining_t, arrival_time, complete, num, fin_t[now_running]);
+        		if(next!=-1){
+        		    start_t[next] = fin_t[now_running];
+        			wait_t[next] += start_t[next]-fin_t[next];
+        			if(remaining_t[next] == burst_time[next])
+        				first_processed_start_t[next] = start_t[next];
+        			now_running = next;
+        			i = now_running +1;
+        			
+        			continue;
+        		}
+        		else{    //(next == -1 && completed != num){		//finished all processes that arrived before finishing current process
+        			for(j=1; j<num; j++){
+        				if(complete[j] ==0 && arrival_time[j] > fin_t[now_running]){
+        					now_running = j;
+        					start_t[now_running] = arrival_time[j];
+        					break;
+        				}
+        			}
+        		}
+		    }
+		}
+		else{        //next process arrives after current process ends
+		    fin_t[now_running] = start_t[now_running] + remaining_t[now_running];
+        	remaining_t[now_running] = 0;
+        	printf("%d\t\t%d\t\t%c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+        	fprintf(ptr, "%d %d %c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+			
+			
+        	complete[now_running] = 1; 
+        	completed++;
+        	if(completed==num)
+        	    break;
 
-                printf("%d\t\t%d\t\t%c%d \n", start_t, arrival_time[i], p[now_running], pid[now_running]);
-                fprintf(ptr, "%d %d %c%d \n", start_t, arrival_time[i], p[now_running], pid[now_running]);
-                fin_t = arrival_time[i];	//update finish time
-                now_running = i;
-                start_t = arrival_time[i];	//start of new process
-                first_processed_start_t[now_running] = arrival_time[i];	//to calculate response time
-            }
-            else	//continue with original process		
-                continue;
-        }
-        else {		//끝나고 새 process 도착.  또는 새 프로세스 도착 전에 수행 완료
-            fin_t += remaining_t[now_running];
-            first_processed_start_t[now_running] = arrival_time[now_running];
-
-            printf("%d\t\t%d\t\t%d \n", start_t, fin_t, pid[now_running]);
-            fprintf(ptr, "%d %d %c%d \n", start_t, fin_t, p[now_running], pid[now_running]);
-
-            remaining_t[now_running] = 0;
-            complete[now_running] = 1;	//completed process
-            completed++;
-            if (completed == num)
-                break;
-            //find idx of process w/ least remaining time
-            if ((fin_t < arrival_time[i]) && (completed == i)) {
-                now_running = i;
-                fin_t = arrival_time[i];	//idle cpu from end of prev process to arrival of i
-            }
-            else
-                now_running = minvalue_arr(remaining_t, arrival_time, complete, num, fin_t);
-
-
-            if (now_running != -1) {	//start processing w/o delay
-                start_t = fin_t;	//start_t of new process
-                wait_t[now_running] += start_t - wait_start[now_running];
-                first_processed_start_t[now_running] = start_t;
-            }
-            else if ((now_running == -1) && (i != num - 1)) {		//CPU is idle until next process comes
-                start_t = arrival_time[i + 1];
-                now_running = i + 1;
-            }
-        }
-    }
-    //all processes have arrived and been evaluated. behaves like SJF from now
-        //여기서부턴 SJF 처럼
-
-    fin_t += remaining_t[now_running];
-    printf("%d\t\t%d\t\t%d \n", start_t, fin_t, pid[now_running]);
-    fprintf(ptr, "%d %d %c%d \n", start_t, fin_t, p[now_running], pid[now_running]);
-
-    if (burst_time[now_running] == remaining_t[now_running])
-        first_processed_start_t[now_running] = start_t; //	
-
-    remaining_t[now_running] = 0;
-    complete[now_running] = 1;	//completed process
-    completed++;
-
-    while (completed != num) {
-        start_t = fin_t;
-        now_running = minvalue_arr(remaining_t, arrival_time, complete, num, fin_t);
-        wait_t[now_running] += start_t - wait_start[now_running];
-
-        fin_t = start_t + remaining_t[now_running];
-        if (burst_time[now_running] == remaining_t[now_running])
-            first_processed_start_t[now_running] = start_t;
-        remaining_t[now_running] = 0;
-        complete[now_running] = 1;	//completed process
-        completed++;
-
-        printf("%d\t\t%d\t\t%d \n", start_t, fin_t, pid[now_running]);
-        fprintf(ptr, "%d %d %c%d \n", start_t, fin_t, p[now_running], pid[now_running]);
-
-        start_t = fin_t;
-    }
+			
+        		next = minvalue_arr(remaining_t, arrival_time, complete, num, fin_t[now_running]);
+        		if(next!=-1){
+        		    start_t[next] = fin_t[now_running];
+        			wait_t[next] += start_t[next]-fin_t[next];
+        			if(remaining_t[next] == burst_time[next])
+        				first_processed_start_t[next] = start_t[next];
+        			now_running = next;
+        			i = now_running +1;
+        			
+        			continue;
+        		}
+        		else{    //(next == -1 && completed != num){		//finished all processes that arrived before finishing current process
+        			for(j=1; j<num; j++){
+        				if(complete[j] ==0 && arrival_time[j] > fin_t[now_running]){
+        					now_running = j;
+        					start_t[now_running] = arrival_time[j];
+        					break;
+        				}
+        			}
+        		}
+		}
+		
+	}
 
     //avg waiting time, turnaround time, response time.
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
@@ -877,15 +926,14 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = (float)tot_response / (float)num;
 
-    fprintf(ptr, "- \n");
+    fprintf(ptr, "-\n");
     for (i = 0; i < num; i++) {
-        fprintf(ptr, "%d %d %d %d %d %d \n", pid[i], burst_time[i], wait_t[i], burst_time[i] + wait_t[i], first_processed_start_t[i] - arrival_time[i], priority[i]);
+        fprintf(ptr, "%d %d %d %d %d %d\n", pid[i], burst_time[i], wait_t[i], burst_time[i] + wait_t[i], first_processed_start_t[i] - arrival_time[i], priority[i]);
     }
 
 
-    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
-    //    fprintf(ptr, "%.2f \n", avg_turnaround);
-    //    fprintf(ptr, "%.2f \n", avg_response);
+    fprintf(ptr, "%.2f %.2f %.2f\n", avg_wait, avg_turnaround, avg_response);
+
     printf("Average waiting time = %.2f\n", avg_wait);
     printf("Average turnaround time = %.2f\n", avg_turnaround);
     printf("Average response time = %.2f\n", avg_response);
@@ -894,115 +942,116 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
     return 0;
 }
 
-int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
+int PPRIORITY(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
 
-    int i, now_running = 0, completed = 0;
+	int next=0, min=-1;
+    int i, j, completed = 0;
     int processed_t;
-    int t = 0;
+    int now_running = 0, t = 0;
     int remaining_t[200], complete[200], wait_t[200], wait_start[200], first_processed_start_t[200];
+	int start_t[num], fin_t[num];
     for (i = 0; i < num; i++) {
         remaining_t[i] = burst_time[i];
         complete[i] = 0;
         wait_t[i] = 0;
         wait_start[i] = arrival_time[i];
-        first_processed_start_t[i] = 0;
+        first_processed_start_t[i] = arrival_time[i];
+		start_t[i] = arrival_time[i]; 
+		fin_t[i] = arrival_time[i];
     }
-    int start_t = arrival_time[0], fin_t = arrival_time[0];	//when first process starts after 0
     char d[50];
     strcpy(d, dir);
-    strcat(d, "PPRIORITY.txt");
+    strcat(d, "algo_PPRIORITY.txt");
     FILE* ptr;
     ptr = fopen(d, "w");
-    printf("\n\nPrePriority:\n");
-    //    fprintf(ptr, "%d \n", num);
+    
     printf("S E PROCESS \n");
     fprintf(ptr, "S E PROCESS \n");
-    first_processed_start_t[now_running] = arrival_time[now_running];
-    for (i = 1; i < num; i++) {
-        if (now_running == i)	//CPU was idle until this process came.
-            continue;
-        if ((remaining_t[now_running] > arrival_time[i] - start_t)) {	//new arrival before finishing current process			
-            processed_t = arrival_time[i] - fin_t;
-            remaining_t[now_running] -= processed_t;
-            fin_t += processed_t;
-            if (priority[now_running] > priority[i]) {	//preemptive switch
-                wait_start[now_running] = arrival_time[i];	//count wait time from this point in time
-                wait_t[i] += fin_t - arrival_time[i];
+    printf("\n\nPPRIORITY:\n");
 
-                printf("%d\t\t%d\t\t%d \n", start_t, arrival_time[i], pid[now_running]);
-                fprintf(ptr, "%d %d %c%d \n", start_t, arrival_time[i], p[now_running], pid[now_running]);
+    if(num>1)
+    	i = now_running + 1;
+    	
+	while(completed != num){
+		if(start_t[now_running] + remaining_t[now_running] > arrival_time[i]){	//process i arrives before now running process ends
+			next = preemp_PrePriority(arrival_time, start_t[now_running], now_running, num, remaining_t, priority, complete);
+			if(next !=-1){
+				remaining_t[now_running] -= arrival_time[next] - start_t[now_running];
+				fin_t[now_running] = arrival_time[next];
+				printf("%d\t\t%d\t\t%c%d \n", start_t[now_running], arrival_time[next], p[now_running], pid[now_running]);
+				fprintf(ptr, "%d %d %c%d \n", start_t[now_running], arrival_time[next], p[now_running], pid[now_running]);
+			
+				now_running = next;
+			}
 
-                fin_t = arrival_time[i];	//update finish time
-                now_running = i;
-                start_t = arrival_time[i];	//start of new process
-                first_processed_start_t[now_running] = arrival_time[i];	//to calculate response time
-            }
-            else	//continue with original process		
-                continue;
-        }
-        else {		//끝나고 새 process 도착.  또는 새 프로세스 도착 전에 수행 완료
-            fin_t += remaining_t[now_running];
-            first_processed_start_t[now_running] = arrival_time[now_running];
-
-            printf("%d\t\t%d\t\t%d \n", start_t, fin_t, pid[now_running]);
-            fprintf(ptr, "%d %d %c%d \n", start_t, fin_t, p[now_running], pid[now_running]);
-
-            remaining_t[now_running] = 0;
-            complete[now_running] = 1;	//completed process
-            completed++;
-            if (completed == num)
-                break;
-
-            //find idx of process w/ highest priority
-            if ((fin_t < arrival_time[i]) && (completed == i)) {
-                now_running = i;
-                fin_t = arrival_time[i];	//idle cpu from end of prev process to arrival of i
-            }
-            else
-                now_running = minvalue_arr(priority, arrival_time, complete, num, fin_t);
-
-            if (now_running != -1) {	//start processing w/o delay
-                start_t = fin_t;	//start_t of new process
-                wait_t[now_running] += start_t - wait_start[now_running];
-                first_processed_start_t[now_running] = start_t;
-            }
-            else if ((now_running == -1) && (i != num - 1)) {		//CPU is idle until next process comes
-                start_t = arrival_time[i + 1];
-                now_running = i + 1;
-            }
-        }
-    }
-
-    //all processes have arrived & been evaluated. from now on, behaves like (non-preemptive) priority
-    fin_t += remaining_t[now_running];
-
-    printf("%d\t\t%d\t\t%d\n", start_t, fin_t, pid[now_running]);
-    fprintf(ptr, "%d %d %c%d \n", start_t, fin_t, p[now_running], pid[now_running]);
-
-    if (burst_time[now_running] == remaining_t[now_running])
-        first_processed_start_t[now_running] = start_t; //
-    remaining_t[now_running] = 0;
-    complete[now_running] = 1;	//completed process
-    completed++;
-
-    while (completed != num) {
-        start_t = fin_t;
-        now_running = minvalue_arr(priority, arrival_time, complete, num, fin_t);
-        wait_t[now_running] += start_t - wait_start[now_running];
-
-        fin_t = start_t + remaining_t[now_running];
-        if (burst_time[now_running] == remaining_t[now_running])
-            first_processed_start_t[now_running] = start_t;
-        remaining_t[now_running] = 0;
-        complete[now_running] = 1;	//completed process
-        completed++;
-
-        printf("%d\t\t%d\t\t%d\n", start_t, fin_t, pid[now_running]);
-        fprintf(ptr, "%d %d %c%d \n", start_t, fin_t, p[now_running], pid[now_running]);
-
-        start_t = fin_t;
-    }
+		    else{    //finished processing w/o preemptive switch	next == -1
+        		fin_t[now_running] = start_t[now_running] + remaining_t[now_running];
+        		remaining_t[now_running] = 0;
+        		printf("%d\t\t%d\t\t%c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+        		fprintf(ptr, "%d %d %c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+				
+        		complete[now_running] = 1; 
+        		completed++;
+        		if(completed==num)
+        		    break;
+        		
+        		next = minvalue_arr(priority, arrival_time, complete, num, fin_t[now_running]);
+				//printf("next: %d\n", next);
+        		if(next!=-1){
+        		    start_t[next] = fin_t[now_running];
+        			wait_t[next] += start_t[next]-fin_t[next];
+        			if(remaining_t[next] == burst_time[next])
+        				first_processed_start_t[next] = start_t[next];
+        			now_running = next;
+        			i = now_running +1;
+        			
+        			continue;
+        		}
+        		else{    //(next == -1 && completed != num){		//finished all processes that arrived before finishing current process
+        			for(j=1; j<num; j++){
+        				if(complete[j] ==0 && arrival_time[j] > fin_t[now_running]){
+        					now_running = j;
+        					start_t[now_running] = arrival_time[j];
+        					break;
+        				}
+        			}
+        		}
+		    }
+		}
+		else{        //next process arrives after current process ends
+		    fin_t[now_running] = start_t[now_running] + remaining_t[now_running];
+        	remaining_t[now_running] = 0;
+        	printf("%d\t\t%d\t\t%c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+        	fprintf(ptr, "%d %d %c%d \n", start_t[now_running], fin_t[now_running] , p[now_running], pid[now_running]);
+			
+        	complete[now_running] = 1; 
+        	completed++;
+        	if(completed==num)
+        	    break;
+			next = minvalue_arr(priority, arrival_time, complete, num, fin_t[now_running]);
+       		if(next!=-1){
+       		    start_t[next] = fin_t[now_running];
+       			wait_t[next] += start_t[next]-fin_t[next];
+       			if(remaining_t[next] == burst_time[next])
+       				first_processed_start_t[next] = start_t[next];
+       			now_running = next;
+       			i = now_running +1;
+       			
+       			continue;
+       		}
+       		else{    //(next == -1 && completed != num){		//finished all processes that arrived before finishing current process
+       			for(j=1; j<num; j++){
+       				if(complete[j] ==0 && arrival_time[j] > fin_t[now_running]){
+       					now_running = j;
+       					start_t[now_running] = arrival_time[j];
+       					break;
+       				}
+       			}
+       		}
+	}
+		
+}
 
     //avg waiting time, turnaround time, response time.
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
@@ -1016,20 +1065,23 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
     float avg_turnaround = (float)tot_turnaround / (float)num;
     float avg_response = (float)tot_response / (float)num;
 
-    fprintf(ptr, "- \n");
+    fprintf(ptr, "-\n");
     for (i = 0; i < num; i++) {
-        fprintf(ptr, "%d %d %d %d %d %d \n", pid[i], burst_time[i], wait_t[i], burst_time[i] + wait_t[i], first_processed_start_t[i] - arrival_time[i], priority[i]);
+        fprintf(ptr, "%d %d %d %d %d %d\n", pid[i], burst_time[i], wait_t[i], burst_time[i] + wait_t[i], first_processed_start_t[i] - arrival_time[i], priority[i]);
     }
-    fprintf(ptr, "%.2f %.2f %.2f \n", avg_wait, avg_turnaround, avg_response);
-    //    fprintf(ptr, "%.2f \n", avg_turnaround);
-    //    fprintf(ptr, "%.2f \n", avg_response);
-    printf("Average waiting time = %.2f \n", avg_wait);
-    printf("Average turnaround time = %.2f \n", avg_turnaround);
-    printf("Average response time = %.2f \n", avg_response);
+
+
+    fprintf(ptr, "%.2f %.2f %.2f\n", avg_wait, avg_turnaround, avg_response);
+
+    printf("Average waiting time = %.2f\n", avg_wait);
+    printf("Average turnaround time = %.2f\n", avg_turnaround);
+    printf("Average response time = %.2f\n", avg_response);
 
     fclose(ptr);
     return 0;
 }
+
+
 
 int main() {
     char dir[50], file_name[50], dir_name[50];
@@ -1066,7 +1118,7 @@ int main() {
     SRTF(p, pid, arrival_time, burst_time, priority, num, dir);
     RR(p, pid, arrival_time, burst_time, priority, num, timeallocation, dir);
     Priority(p, pid, arrival_time, burst_time, priority, num, dir);
-    PrePriority(p, pid, arrival_time, burst_time, priority, num, dir);
+    PPRIORITY(p, pid, arrival_time, burst_time, priority, num, dir);
     PriorityRR(p, pid, arrival_time, burst_time, priority, num, timeallocation, dir);
     fclose(fptr);
     return 0;

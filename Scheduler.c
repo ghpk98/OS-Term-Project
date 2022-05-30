@@ -121,13 +121,14 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
             }
             else {
                 int t = arrival_time[x + 1];
-                while (t > arrival_time[x] + burst_time[x]) {
-                    t--;
+                while (t > sum + burst_time[x]) {
                     sum++;
                 }
                 sum += burst_time[x];
             }
         }
+        printf("sum:%d", sum);
+
         for (int j = i + 1; j < num - 1; j++) {
             for (int k = j + 1; k < num; k++) {
                 if ((priority[j] > priority[k]) && sum >= arrival_time[k]) {

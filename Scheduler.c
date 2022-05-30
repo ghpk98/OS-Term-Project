@@ -479,7 +479,7 @@ int Priority(char p[], int pid[], int arrival_time[], int burst_time[], int prio
     waitingtime(pid, arrival_time, burst_time, waiting_time, num);
     turnaroundtime(pid, arrival_time, burst_time, waiting_time, turnaround_time, num);
     FILE* ptr;
-    ptr = fopen("Priority.txt", "w");
+    ptr = fopen("PRIORITY.txt", "w");
     //    fprintf(ptr, "%d \n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -615,7 +615,7 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
     total1 = (int*)malloc(sizeof(int) * num);
     int tot_wait = 0, tot_turnaround = 0, tot_response = 0;
     FILE* ptr;
-    ptr = fopen("PriorityRR.txt", "w");
+    ptr = fopen("PRR.txt", "w");
     //    fprintf(ptr, "%d\n", num);
     fprintf(ptr, "S E PROCESS \n");
     printf("Start Time   Burst Time   Process ID \n");
@@ -634,7 +634,7 @@ int PriorityRR(char p[], int pid[], int arrival_time[], int burst_time[], int pr
             }
         }
         fprintf(ptr, "%d %d %c%d \n", total1[i], total1[i] + RRburst_time[i], p[0], RRpid[i]);
-        printf("%d\t\t%d\t\t%d\n", total1[i], RRburst_time[i], RRpid[i]);
+        printf("%d\t\t%d\t\t%d\n", total1[i], total1[i] + RRburst_time[i], RRpid[i]);
         total1[i] += RRburst_time[i];
         total2[i] = total1[i];
     }
@@ -892,7 +892,7 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
     int start_t = arrival_time[0], fin_t = arrival_time[0];	//when first process starts after 0
 
     FILE* ptr;
-    ptr = fopen("PrePriority.txt", "w");
+    ptr = fopen("PPRIORITY.txt", "w");
     printf("\n\nPrePriority:\n");
     //    fprintf(ptr, "%d \n", num);
     printf("S E PROCESS \n");
@@ -1011,8 +1011,16 @@ int PrePriority(char* p, int pid[], int arrival_time[], int burst_time[], int pr
 }
 
 int main() {
+    char dir_name[100];
+    char file_name[100];
+    printf("Enter the file name to sort: ");
+    scanf("%s", &dir_name, &file_name);
+    strcpy(file_name, dir_name);
+    strcat(dir_name, "\\");
+    strcat(file_name, ".txt");
+    strcat(dir_name, file_name);
     FILE* fptr;
-    fptr = fopen("text.txt", "r");
+    fptr = fopen(dir_name, "r");
     if (fptr == NULL)
     {
         printf("File Not Found!");

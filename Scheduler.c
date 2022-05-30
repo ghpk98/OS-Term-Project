@@ -400,7 +400,7 @@ int RR(char p[], int pid[], int arrival_time[], int burst_time[], int priority[]
                 break;
             }
         }
-        fprintf(ptr, "%d %d %c%d \n", total[i], RRburst_time[i], p[0], RRpid[i]);
+        fprintf(ptr, "%d %d %c%d \n", total[i], total[i] + RRburst_time[i], p[0], RRpid[i]);
         printf("%d\t\t%d\t\t%d\n", total[i], total[i] + RRburst_time[i], RRpid[i]);
         total[i] += RRburst_time[i];
         total2[i] = total[i];

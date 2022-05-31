@@ -59,8 +59,7 @@ int swapSJF(int pid[], int arrival_time[], int burst_time[], int priority[], int
             }
             else {
                 int t = arrival_time[x + 1];
-                while (t > arrival_time[x] + burst_time[x]) {
-                    t--;
+                while (t > sum + burst_time[x]) {
                     sum++;
                 }
                 sum += burst_time[x];
@@ -127,8 +126,6 @@ int swapPriority(int pid[], int arrival_time[], int burst_time[], int priority[]
                 sum += burst_time[x];
             }
         }
-        printf("sum:%d", sum);
-
         for (int j = i + 1; j < num - 1; j++) {
             for (int k = j + 1; k < num; k++) {
                 if ((priority[j] > priority[k]) && sum >= arrival_time[k]) {
@@ -169,9 +166,6 @@ int turnaroundtime(int pid[], int arrival_time[], int burst_time[], int waiting_
     return 0;
 }
 
-int responsetime() {
-
-}
 
 int FCFS(char p[], int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);

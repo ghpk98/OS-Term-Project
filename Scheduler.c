@@ -935,7 +935,8 @@ int SRTF(char* p, int pid[], int arrival_time[], int burst_time[], int priority[
 
 int PPRIORITY(char* p, int pid[], int arrival_time[], int burst_time[], int priority[], int num, char dir[]) {
     swap(pid, arrival_time, burst_time, priority, num);
-
+    swapPriority(pid, arrival_time, burst_time, priority, num);
+    
     int next = 0, min = -1;
     int i, j, completed = 0;
     int processed_t;

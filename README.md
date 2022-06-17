@@ -2,8 +2,6 @@
 Korea Univ. 2022 Spring COSE341 Operating System_TEAM 3
 
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 
 - [x] Scheduling algorithm : C

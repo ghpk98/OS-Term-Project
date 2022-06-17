@@ -1,6 +1,8 @@
 # OS-Term-Project
 Korea Univ. 2022 Spring COSE341 Operating System_TEAM 3
-
+> Implement First Come First Served, Shortest Job First, Shortest Remaining Task First, Round Robin, Priority, Preemptive Priority, Non-preemptive Priority with Round Robin scheduling algorithm learned in class and derive **Gantt chart, Waiting time, Response time and Turn around time**.
+> 
+>   Based on the results of each algorithm, the understanding of algorithm is improved. Furthermore, based on the output, the scheduling algorithm adopted by modern systems is understood centering on Linux's Complete Fair Scheduler (CFS).
 
 
 
@@ -25,8 +27,10 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 
 ## Results for some test cases
 
-![test2_GanttChartAnimation](https://user-images.githubusercontent.com/53131824/174293824-37e81c2f-77af-4a5a-b209-444bacdd12fa.gif)
+![image](https://user-images.githubusercontent.com/53131824/174294140-a89e44b5-47de-4087-8518-bd0e4df142f2.png)
 
+![test2_GanttChartAnimation](https://user-images.githubusercontent.com/53131824/174293824-37e81c2f-77af-4a5a-b209-444bacdd12fa.gif)
+**_NOTE: The executable file, which is the output of this project, provides a Gantt chart of the PNG and GIF extensions._**
 
 
 ## Function diagram

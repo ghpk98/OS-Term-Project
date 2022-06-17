@@ -87,7 +87,7 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 ## Contributor
 |Member|Contributions|Contact|
 |:-:|-------|-|
-|손혜강</br>Leader|+ Function implementation (Python : Gantt chart image⦁animation and executable file generation)</br>+ Project scheduling and management **[responsibility]**</br>+ GitHub Management</br>+ Structural design and final report creation|oss67820@korea.ac.kr|
+|손혜강</br>_(Leader)_|+ Function implementation (Python : Gantt chart image⦁animation and executable file generation)</br>+ Project scheduling and management **[responsibility]**</br>+ GitHub Management</br>+ Structural design and final report creation|oss67820@korea.ac.kr|
 |박건호|+ Write Skeleton code and create executable file</br>+ Algorithm implementation (C language : FCFS, SJF, RR, non-preemptive priority, non-preemptive priority with RR)</br>+ GitHub Management **[responsibility]**</br>+ Build testcase and write final report| |
 |조혜민|+ Algorithm implementation (C language - SRTF, preemption priority)</br>+ Presentation planning (responsibility)</br>+ Final report preparation **[responsibility]**| |
 |홍지선|+ Function implementation (Python – time table function and code collection)</br>+ Test plan management **[responsibility]**</br>+ Meeting management and final report creation| |

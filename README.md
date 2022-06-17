@@ -53,6 +53,14 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 |4. 편리한 테스트 데이터 관리|각 테스트 데이터들을 개별 폴더로 관리할 수 있도록 하였습니다. 실행파일을 설치한 경로에 test data(txt file)을 test라는 폴더 내에 포함시키면 알고리즘 구현 계층에서 생성한 알고리즘별 스케줄링 결과(txt file)와 평가 모듈에서 생성한 간트차트(png, gif file)를 해당 폴더에 저장하도록 하였습니다. 사용자는 test data를 포함하는 폴더 이름만 프로그램에 입력하면 모든 기능을 사용할 수 있습니다.|
 
 ## Main issues discussed
+### Development Technical Documentation
+- Corner case : https://github.com/ghpk98/OS-Term-Project/issues/10
+- Animation Ideas : https://github.com/ghpk98/OS-Term-Project/issues/12
+- Python Part Executable File Excessive Execution Time Problem : https://github.com/ghpk98/OS-Term-Project/issues/14
+
+### Meeting Record
+- 2nd BREAKOUT MEETING : https://github.com/ghpk98/OS-Term-Project/issues/2
+- 3rd BREAKOUT MEETING : https://github.com/ghpk98/OS-Term-Project/issues/5
 
 
 ## Development Timeline
@@ -63,7 +71,7 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 ## Contributor
 |Member|Contributions|Contact|
 |:-:|-------|-|
-|손혜강|+ Function implementation (Python – Gantt chart image⦁animation and executable file generation)</br>+ Project scheduling and management **[responsibility]**</br>+ GitHub Management</br>+ Structural design and final report creation|oss67820@korea.ac.kr|
-|박건호|+ Write Skeleton code and create executable file</br>+ Algorithm implementation (C language - FCFS, SJF, RR, non-preemptive priority, non-preemptive priority with RR)</br>+ GitHub Management **[responsibility]**</br>+ Build testcase and write final report| |
+|손혜강|+ Function implementation (Python : Gantt chart image⦁animation and executable file generation)</br>+ Project scheduling and management **[responsibility]**</br>+ GitHub Management</br>+ Structural design and final report creation|oss67820@korea.ac.kr|
+|박건호|+ Write Skeleton code and create executable file</br>+ Algorithm implementation (C language : FCFS, SJF, RR, non-preemptive priority, non-preemptive priority with RR)</br>+ GitHub Management **[responsibility]**</br>+ Build testcase and write final report| |
 |조혜민|+ Algorithm implementation (C language - SRTF, preemption priority)</br>+ Presentation planning (responsibility)</br>+ Final report preparation **[responsibility]**| |
 |홍지선|+ Function implementation (Python – time table function and code collection)</br>+ Test plan management **[responsibility]**</br>+ Meeting management and final report creation| |

@@ -1,5 +1,22 @@
 # OS-Term-Project
 Korea Univ. 2022 Spring COSE341 Operating System_TEAM 3
+<br/>
+- [OS-Term-Project](#os-term-project)
+    + [Development environment](#development-environment)
+  * [Specification](#specification)
+  * [How to use](#how-to-use)
+  * [Results for some test cases](#results-for-some-test-cases)
+  * [Function diagram](#function-diagram)
+  * [Features](#features)
+    + [Main idea](#main-idea)
+  * [Main issues discussed](#main-issues-discussed)
+    + [Development Technical Documentation](#development-technical-documentation)
+    + [Meeting Record](#meeting-record)
+  * [Development Timeline](#development-timeline)
+  * [Contributor](#contributor)
+
+<br/>
+
 > `Implement First Come First Served, Shortest Job First, Shortest Remaining Task First, Round Robin, Priority, Preemptive Priority, Non-preemptive Priority with Round Robin scheduling algorithm learned in class and derive **Gantt chart, Waiting time, Response time and Turn around time**.`
 > 
 >   `Based on the results of each algorithm, the understanding of algorithm is improved. Furthermore, based on the output, the scheduling algorithm adopted by modern systems is understood centering on Linux's Complete Fair Scheduler (CFS).`
@@ -14,6 +31,7 @@ Korea Univ. 2022 Spring COSE341 Operating System_TEAM 3
 
 
 
+<br/>
 ## Specification
 Visualization of scheduling results and Gantt chart for the 7 algorithms below
 - First Come First Served

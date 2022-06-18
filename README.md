@@ -49,6 +49,7 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 ![image](https://user-images.githubusercontent.com/53131824/174294140-a89e44b5-47de-4087-8518-bd0e4df142f2.png)
 
 ![test2_GanttChartAnimation](https://user-images.githubusercontent.com/53131824/174293824-37e81c2f-77af-4a5a-b209-444bacdd12fa.gif)
+**_NOTE: Input data_ https://github.com/ghpk98/OS-Term-Project/blob/main/simulator/test2/test2.txt_**
 **_NOTE: The executable file, which is the output of this project, provides a Gantt chart of the PNG and GIF extensions._**
 
 

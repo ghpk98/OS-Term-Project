@@ -77,11 +77,11 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 **_NOTE: The executable file, which is the output of this project, provides a Gantt chart of the PNG and GIF extensions._**
 
 ### Python part_Evaluation module
-**After the first input of part2_final.exe, the activated pyplot window must be closed to perform the next process. pyplot window The next step is to create an animation. 
-The generated animation is created with a GIF extension in the folder where the test data is located.
-After creating the animation, output the menu and wait for user input.
-The menu provided is as follows.
-**
+**After the first input of part2_final.exe, the activated pyplot window must be closed to perform the next process. pyplot window The next step is to create an animation.**
+**The generated animation is created with a GIF extension in the folder where the test data is located.**
+**After creating the animation, output the menu and wait for user input.**
+**The menu provided is as follows.**
+
 ![image](https://user-images.githubusercontent.com/53131824/174461219-98398bc6-b454-4291-88d3-8f3daf4051da.png)
 
 ![image](https://user-images.githubusercontent.com/53131824/174461223-6c7526d1-5fdf-4b54-93b3-91a6d296ccc6.png)

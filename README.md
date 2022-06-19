@@ -42,10 +42,25 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 
 
 ## How to use
-
+![image](https://user-images.githubusercontent.com/53131824/174460414-9974a3d1-a0db-4063-b542-0e81f76d4d4b.png)
+![image](https://user-images.githubusercontent.com/53131824/174460444-3c128857-606f-442e-94b2-ae676e1efed0.png)
+1. **Download part1_final.exe and part2_final.exe to the same path.**
+2. **Create a subfolder in the path where step 1 was performed, and create test data as a txt file in the created folder.**
+**The most important thing in step 2 is that the name of the created subfolder and the name of the test data txt file should be the same.**
 
 ## Results for some test cases
+### C part_Shell output
 
+![image](https://user-images.githubusercontent.com/53131824/174460316-e732135e-4dd4-4d9b-8f91-7197325e637d.png)
+**_NOTE: Results for the 7 scheduling algorithms are output to the shell in the format above._**
+
+### C part_txt data file
+![image](https://user-images.githubusercontent.com/53131824/174460370-16174c36-d4ec-47c9-ba83-2b56a3d08d4a.png)
+**_NOTE: Results for 7 scheduling algorithms are saved with txt extension for use in Gantt chart visualization, evaluation module._**
+**_NOTE: txt data file의 format은 https://github.com/ghpk98/OS-Term-Project/issues/9
+에 정리되어 있습니다_**
+
+### Python part_Gantt chart
 ![image](https://user-images.githubusercontent.com/53131824/174294140-a89e44b5-47de-4087-8518-bd0e4df142f2.png)
 
 ![test2_GanttChartAnimation](https://user-images.githubusercontent.com/53131824/174293824-37e81c2f-77af-4a5a-b209-444bacdd12fa.gif)

@@ -52,10 +52,12 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 ### C part_Shell output
 
 ![image](https://user-images.githubusercontent.com/53131824/174460316-e732135e-4dd4-4d9b-8f91-7197325e637d.png)
+
 **_NOTE: Results for the 7 scheduling algorithms are output to the shell in the format above._**
 
 ### C part_txt data file
 ![image](https://user-images.githubusercontent.com/53131824/174460370-16174c36-d4ec-47c9-ba83-2b56a3d08d4a.png)
+
 **_NOTE: Results for 7 scheduling algorithms are saved with txt extension for use in Gantt chart visualization, evaluation module._**
 **_NOTE: txt data file의 format은 https://github.com/ghpk98/OS-Term-Project/issues/9
 에 정리되어 있습니다_**
@@ -64,6 +66,7 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 ![image](https://user-images.githubusercontent.com/53131824/174294140-a89e44b5-47de-4087-8518-bd0e4df142f2.png)
 
 ![test2_GanttChartAnimation](https://user-images.githubusercontent.com/53131824/174293824-37e81c2f-77af-4a5a-b209-444bacdd12fa.gif)
+
 **_NOTE: Input data_ https://github.com/ghpk98/OS-Term-Project/blob/main/simulator/test2/test2.txt_**
 
 **_NOTE: The executable file, which is the output of this project, provides a Gantt chart of the PNG and GIF extensions._**
@@ -71,6 +74,7 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 
 ## Function diagram
 ![final function diagram](https://user-images.githubusercontent.com/53131824/169515901-9eedf780-e1f4-440e-839f-6380815709c0.jpg)
+
 **_NOTE: that all input/output data is processed with txt extension._**
 
 

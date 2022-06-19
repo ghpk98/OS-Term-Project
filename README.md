@@ -48,6 +48,9 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 2. **Create a subfolder in the path where step 1 was performed, and create test data as a txt file in the created folder.**  
 **(The most important thing in step 2 is that the name of the created subfolder and the name of the test data txt file should be the same.)**
 
+3. **Execute part1_final.exe and part2_final.exe sequentially. The first input of all executable files is the name of the subfolder(=name of the test data txt file) performed in steps 1 and 2.**
+
+
 ## Results for some test cases
 ### C part_Shell output
 
@@ -63,6 +66,8 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 에 정리되어 있습니다_**
 
 ### Python part_Gantt chart
+![image](https://user-images.githubusercontent.com/53131824/174461144-3c5cfcaf-040d-45b2-83b6-e8c5bc75e4dc.png)
+
 ![image](https://user-images.githubusercontent.com/53131824/174294140-a89e44b5-47de-4087-8518-bd0e4df142f2.png)
 
 ![test2_GanttChartAnimation](https://user-images.githubusercontent.com/53131824/174293824-37e81c2f-77af-4a5a-b209-444bacdd12fa.gif)
@@ -70,6 +75,21 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 **_NOTE: Input data_ https://github.com/ghpk98/OS-Term-Project/blob/main/simulator/test2/test2.txt_**
 
 **_NOTE: The executable file, which is the output of this project, provides a Gantt chart of the PNG and GIF extensions._**
+
+### Python part_Evaluation module
+**After the first input of part2_final.exe, the activated pyplot window must be closed to perform the next process. pyplot window The next step is to create an animation. 
+The generated animation is created with a GIF extension in the folder where the test data is located.
+After creating the animation, output the menu and wait for user input.
+The menu provided is as follows.
+**
+![image](https://user-images.githubusercontent.com/53131824/174461219-98398bc6-b454-4291-88d3-8f3daf4051da.png)
+
+![image](https://user-images.githubusercontent.com/53131824/174461223-6c7526d1-5fdf-4b54-93b3-91a6d296ccc6.png)
+
+![image](https://user-images.githubusercontent.com/53131824/174461233-6188bcce-a518-4ffe-bc88-009750d2e885.png)
+
+![image](https://user-images.githubusercontent.com/53131824/174461237-1fbdec74-c812-422d-9dc8-2e8431b395e4.png)
+
 
 
 ## Function diagram

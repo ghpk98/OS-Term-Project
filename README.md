@@ -48,7 +48,7 @@ Visualization of scheduling results and Gantt chart for the 7 algorithms below
 ## How to use
 ![image](https://user-images.githubusercontent.com/53131824/174461003-5195c44a-cc60-4067-94ce-d41ac274568d.png)
 ![image](https://user-images.githubusercontent.com/53131824/174460444-3c128857-606f-442e-94b2-ae676e1efed0.png)
-1. **Download part1_final.exe and part2_final.exe to the same path.**
+1. **Download part1_final.exe and part2_final.exe to the same path.**</br>https://github.com/ghpk98/OS-Term-Project/tree/main/simulator
 2. **Create a subfolder in the path where step 1 was performed, and create test data as a txt file in the created folder.**  
 **(The most important thing in step 2 is that the name of the created subfolder and the name of the test data txt file should be the same.)**
 
